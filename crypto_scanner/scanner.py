@@ -270,6 +270,7 @@ def scan(min_score, sleep_seconds, limit=None):
 
 
 def main():
+    global BASE_URL
     parser = argparse.ArgumentParser(
         description="Scan Binance USDT spot pairs for volume spikes, "
                     "Bollinger squeezes and resistance breakouts.")
@@ -279,9 +280,15 @@ def main():
                         help="seconds to pause between kline requests (default: 0.1)")
     parser.add_argument("--output-dir", default=".",
                         help="folder for the CSV file (default: current folder)")
+    parser.add_argument("--base-url", default=BASE_URL,
+                        help="Binance API host (default: %(default)s). Use "
+                             "https://data-api.binance.vision if api.binance.com "
+                             "is blocked in your region")
     parser.add_argument("--limit", type=int, default=None,
                         help="scan only the first N liquid pairs (handy for a quick test)")
     args = parser.parse_args()
+
+    BASE_URL = args.base_url.rstrip("/")
 
     started = datetime.now(timezone.utc)
     results, scanned = scan(args.min_score, args.sleep, args.limit)

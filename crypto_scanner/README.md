@@ -54,6 +54,7 @@ Options:
 | `--min-score N` | `2` | Show only coins with score ≥ N (0–3) |
 | `--sleep SECONDS` | `0.1` | Pause between kline requests. Raise this if you get rate limited |
 | `--output-dir DIR` | `.` | Folder where the CSV is saved |
+| `--base-url URL` | `https://api.binance.com` | Binance API host, e.g. `https://data-api.binance.vision` if your region is blocked |
 | `--limit N` | none | Scan only the first N liquid pairs (useful for a quick test) |
 
 A full scan of a few hundred pairs takes about a minute.
@@ -79,6 +80,8 @@ The example above is illustrative, not real market data.
 ## Note on location
 
 Binance blocks `api.binance.com` in some regions (for example the US, where you get
-HTTP 451). If that happens, you may be able to change `BASE_URL` at the top of
-`scanner.py` to `https://api.binance.us`, which has a smaller set of pairs, or to
-`https://data-api.binance.vision`, Binance's public market-data mirror.
+HTTP 451). If that happens, use Binance's public market-data mirror:
+
+```bash
+python scanner.py --base-url https://data-api.binance.vision
+```
